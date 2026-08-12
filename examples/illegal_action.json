@@ -1,0 +1,10 @@
+{
+  "n": 1,
+  "turn_order": ["A", "B", "A", "A"],
+  "moves": [
+    {"action": "lift", "pole": "2"},
+    {"action": "lift", "pole": "1"},
+    {"action": "lift", "pole": "1"},
+    {"action": "place", "pole": "3"}
+  ]
+}

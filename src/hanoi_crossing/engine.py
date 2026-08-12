@@ -133,6 +133,21 @@ class Game:
             return []
         return legal_actions(observation)
 
+    def snapshot(self):
+        return {
+            "poles": {
+                "1a": list(self._state.pole_1a),
+                "2": list(self._state.pole_2),
+                "3a": list(self._state.pole_3a),
+                "1b": list(self._state.pole_1b),
+                "3b": list(self._state.pole_3b),
+            },
+            "hands": {
+                "A": self._state.hand_a,
+                "B": self._state.hand_b,
+            },
+        }
+
     def step(self, action):
         if self.done:
             return False
