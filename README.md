@@ -123,9 +123,7 @@ Pole lists are stored from bottom to top, making the last item the disk that
 can be lifted. Actions are represented by the small `Lift`, `Place`, and
 `Skip` classes.
 
-The victory rule is implemented literally: the acting player's hand and
-visible poles 1 and 2 must be empty, while visible pole 3 must contain disks.
-Consequently, a disk left by the opponent on the shared pole prevents a win.
+The victory rule is implemented literally: the acting player's hand and visible poles 1 and 2 must be empty, while visible pole 3 must contain disks. I interpret the alternative case where pole 3 is also empty as not being a win, since that could allow a player to win simply because their disks were moved out of their visible area. Consequently, a disk left by the opponent on the shared pole prevents a win.
 
 An illegal action leaves the state unchanged but still consumes the turn, as
 specified by the assignment. `Skip` is always legal and also consumes a turn.
