@@ -9,6 +9,10 @@ from hanoi_crossing.model import GameState, Player
 
 
 class TestModel(unittest.TestCase):
+    def test_game_requires_at_least_one_disk(self):
+        with self.assertRaises(ValueError):
+            GameState(0)
+
     def test_new_game_n1(self):
         state = GameState(1)
         self.assertEqual(state.pole_1a, [1])

@@ -37,6 +37,9 @@ class Observation:
 
 class GameState:
     def __init__(self, n):
+        if n < 1:
+            raise ValueError("n must be at least 1")
+
         self.pole_1a = [2 * i - 1 for i in range(n, 0, -1)]
         self.pole_2 = []
         self.pole_3a = []
