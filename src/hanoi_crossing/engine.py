@@ -32,8 +32,28 @@ def has_won(obs):
         obs.hand is None
         and not obs.pole_1
         and not obs.pole_2
-        and obs.pole_3
+        and bool(obs.pole_3)
     )
+
+
+def legal_actions(obs):
+    actions = [Skip()]
+    poles = {
+        Pole.ONE: obs.pole_1,
+        Pole.TWO: obs.pole_2,
+        Pole.THREE: obs.pole_3,
+    }
+
+    if obs.hand is None:
+        for pole, stack in poles.items():
+            if stack:
+                actions.append(Lift(pole))
+    else:
+        for pole, stack in poles.items():
+            if not stack or stack[-1] > obs.hand:
+                actions.append(Place(pole))
+
+    return actions
 
 
 def _pole_stack(state, player, pole):
@@ -83,3 +103,45 @@ def step(state, player, action):
         return True
 
     return False
+
+
+class Game:
+    def __init__(self, n, turn_order):
+        self._state = GameState(n)
+        self._turn_order = list(turn_order)
+        self._turn = 0
+        self.winner = None
+
+    @property
+    def done(self):
+        return self.winner is not None or self._turn >= len(self._turn_order)
+
+    @property
+    def current_player(self):
+        if self.done:
+            return None
+        return self._turn_order[self._turn]
+
+    def observe(self):
+        if self.done:
+            return None
+        return observe(self._state, self.current_player)
+
+    def legal_actions(self):
+        observation = self.observe()
+        if observation is None:
+            return []
+        return legal_actions(observation)
+
+    def step(self, action):
+        if self.done:
+            return False
+
+        player = self.current_player
+        applied = step(self._state, player, action)
+
+        if applied and has_won(observe(self._state, player)):
+            self.winner = player
+
+        self._turn += 1
+        return applied
